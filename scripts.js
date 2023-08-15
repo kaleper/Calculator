@@ -1,40 +1,77 @@
 let button = document.querySelectorAll("button");
-let output = document.querySelector(".output");
+let screen = document.querySelector(".screen");
+let decimal = document.querySelector("[data-type='decimal']");
+let userOperator = document.querySelectorAll("[data-type='operator']");
+let equals = document.querySelector("[data-type='equals']");
 
-button.forEach(button => button.addEventListener("click", buttonDisplay)) 
+decimal.addEventListener("click", decimalDisplay);
+button.forEach(button => button.addEventListener("click", buttonDisplay)); 
+button.forEach(numbersClicked=> numbersClicked.addEventListener("click", addToExpression));
+userOperator.forEach(operator1 => operator1.addEventListener("click", chosenOperator));
+equals.addEventListener ("click", operate);
+
+let tempExpression = [];
+let expression = [];
+let firstNumber;
+let nextNumber;
+
+function chosenOperator () {
+    if (this.innerText == "+") {
+        return add()
+    } else if (this.innerText == "-") {
+        return subtract();
+    } else if (this.innerText == "*") {
+        return multiply();
+    } else if (this.innerText == "/") {
+        return divide();
+    }
+}
+
+function addToExpression () {
+    
+    tempExpression.push(parseInt(this.innerText));
+    expression = tempExpression.filter(Boolean);
+    firstNumber = expression[0];
+    nextNumber = expression[1];
+
+}
+
+function decimalDisplay() {
+     if (screen.innerHTML.includes('.')) {
+        decimal.disabled; 
+     } else {
+        screen.innerText += this.innerText;
+     }
+}
+
 
 function buttonDisplay() {
-    output.innerText += this.innerText;
-}
-// alternate version of displaying text 
-// for (let i=0; i<button.length; i++) {
-// button[i].addEventListener("click", function() {
-//     output.innerText += this.innerText;
-// });
-// }
-
-function add (a,b) {
-    return a+b;
-}
-
-function subtract (a,b){
-    return a-b;
-}
-
-function multiply (a,b){
-    return a*b;
-}
-
-function divide (a,b){
-    return a/b; 
+        if (this.innerText != "*" &&
+        this.innerText != "/" &&
+        this.innerText != "+" &&
+        this.innerText != "-" &&
+        this.innerText != "=" &&
+        this.innerText != "clear" &&
+        this.innerText != "delete" &&
+        this.innerText != ".") {
+            screen.innerText += this.innerText;
+        }
 }
 
 
-let firstNumber 
-let operator
-let nextNumber
+function add () {
+    return firstNumber + nextNumber;
+}
+function subtract () {
+    return firstNumber - nextNumber;
+}
+function multiply () {
+    return firstNumber * nextNumber;
+}
+function divide () {
+    return firstNumber / nextNumber; 
+}
 
-
-function operate (a,b){
-    
+function operate () {
+    console.log (expression.reduce(chosenOperator))
 }

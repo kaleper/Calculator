@@ -1,13 +1,9 @@
 * {
+    
     box-sizing:border-box;
 }
 
-.container {
-}
-.row {
-
-}
-.output {
+.screen {
     
     background-color:lightgray;
     width: 200px;
