@@ -17,13 +17,13 @@ let nextNumber;
 
 function chosenOperator () {
     if (this.innerText == "+") {
-        return add()
+        chosenOperator = add;
     } else if (this.innerText == "-") {
-        return subtract();
+        chosenOperator = subtract;
     } else if (this.innerText == "*") {
-        return multiply();
+        chosenOperator =  multiply;
     } else if (this.innerText == "/") {
-        return divide();
+        chosenOperator = divide;
     }
 }
 
