@@ -2,48 +2,54 @@ let button = document.querySelectorAll("button");
 let screen = document.querySelector(".screen");
 let decimal = document.querySelector("[data-type='decimal']");
 let userOperator = document.querySelectorAll("[data-type='operator']");
-let equals = document.querySelector("[data-type='equals']");
+// let equals = document.querySelector("[data-type='equals']");
 let clear = document.querySelector("[data-type='clear']");
 let del = document.querySelector("[data-type='delete']");
 
 // let operand = [];
 let tempArray = [];
 let result = 0;
+// removed variables
 // let tempExpressionFiltered = [];
 // let tempExpression = [];
-let previousNum = [];
+// let previousNum = [];
 let currentNum = [];
 let expression = [];
 
 decimal.addEventListener("click", decimalDisplay);
 button.forEach(button => button.addEventListener("click", buttonDisplay)); 
-button.forEach(numbersClicked=> numbersClicked.addEventListener("click", addToExpression));
-userOperator.forEach(operatorClicked => operatorClicked.addEventListener("click", chosenOperator));
-equals.addEventListener ("click", operate);
+// button.forEach(numbersClicked=> numbersClicked.addEventListener("click", addToExpression));
+// userOperator.forEach(operatorClicked => operatorClicked.addEventListener("click", chosenOperator));
+// equals.addEventListener ("click", operate);
 clear.addEventListener("click", clearScreen);
 del.addEventListener("click", deleteNumber);
 
 function clearScreen () {
     screen.innerText = "";
-    operand = [];
+    tempArray = [];
+    expression = [];
 }
 
 function deleteNumber () {
-    screen.innerText = screen.innerText.slice (0, -1);
-    operand.pop()
+    // i don't think this if statement is needed since it'll delete nothing already
+    // if (tempArray.length > 0)
+    // why does this work if tempArray is temporarily a string?
+    tempArray = tempArray.slice (0, -1);
+    screen.innerText = tempArray;
+    
 }
 
-function chosenOperator () {
-    if (this.innerText == "+") {
-        chosenOperator = add;
-    } else if (this.innerText == "-") {
-        chosenOperator = subtract;
-    } else if (this.innerText == "*") {
-        chosenOperator =  multiply;
-    } else if (this.innerText == "/") {
-        chosenOperator = divide;
-    }
-}
+// function chosenOperator () {
+//     if (this.innerText == "+") {
+//         chosenOperator = add;
+//     } else if (this.innerText == "-") {
+//         chosenOperator = subtract;
+//     } else if (this.innerText == "*") {
+//         chosenOperator =  multiply;
+//     } else if (this.innerText == "/") {
+//         chosenOperator = divide;
+//     }
+// }
 
 
 function addToExpression () { 
@@ -105,6 +111,7 @@ function addToExpression () {
 // }
 
 function decimalDisplay() {
+    
      if (screen.innerHTML.includes('.')) {
         decimal.disabled; 
      } else {
@@ -112,41 +119,61 @@ function decimalDisplay() {
      }
 }
 
-function buttonDisplay() {
-    if (this.innerText != "*" &&
-        this.innerText != "/" &&
-        this.innerText != "+" &&
-        this.innerText != "-" &&
-        this.innerText != "=" &&
-        this.innerText != "clear" &&
-        this.innerText != "delete" &&
-        this.innerText != ".") {
-            screen.innerText += this.innerText;
-            }
-}
+// made redundant as code is now pushed in addToExpression function
+// function buttonDisplay() {
+//     if (this.innerText != "*" &&
+//         this.innerText != "/" &&
+//         this.innerText != "+" &&
+//         this.innerText != "-" &&
+//         this.innerText != "=" &&
+//         this.innerText != "clear" &&
+//         this.innerText != "delete" &&
+//         this.innerText != ".") {
+//             screen.innerText += this.innerText;
+//             }
+// }
 
-function add () {
-    result = previousNum + currentNum;
-    return previousNum + currentNum;
+// redundant, added code in operate() function
+
+// function add () {
+//     result = previousNum + currentNum;
+//     return previousNum + currentNum;
    
-}
-function subtract () {
-    result = previousNum - currentNum;
-    return previousNum - currentNum;
-}
-function multiply () {
-    result = previousNum * currentNum;
-    return previousNum * currentNum;
-}
-function divide () {
-    result = previousNum / currentNum;
-    return previousNum / currentNum; 
-}
+// }
+// function subtract () {
+//     result = previousNum - currentNum;
+//     return previousNum - currentNum;
+// }
+// function multiply () {
+//     result = previousNum * currentNum;
+//     return previousNum * currentNum;
+// }
+// function divide () {
+//     result = previousNum / currentNum;
+//     return previousNum / currentNum; 
+// }
 
 function operate () {
-    screen.innerText = (operand.reduce(chosenOperator));
-    currentNum = result;
+    result = expression[0];
+    //Skips the first number. Iterates through expression and takes only the operator as the operator is placed in odd indexes of expression[]. 
+    for (let i = 1; i < expression.length; i += 2) {
+        if (expression[i] === "+") {
+        result += expression[i+1];
+        } else if (expression[i] === "-") {
+        result -= expression[i+1];
+        } else if (expression[i] === "*") {
+        result *= expression[i+1];
+        } else if (expression[i] === "/") {
+        result /= expression[i+1];
+        }
+    }
+    currentNum = result; 
 }
+
+// function operate () {
+//     screen.innerText = (operand.reduce(chosenOperator));
+//     currentNum = result;
+// }
 
 
 // let button = document.querySelectorAll("button");
