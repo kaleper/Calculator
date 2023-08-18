@@ -6,6 +6,15 @@ let equals = document.querySelector("[data-type='equals']");
 let clear = document.querySelector("[data-type='clear']");
 let del = document.querySelector("[data-type='delete']");
 
+// let operand = [];
+let tempArray = [];
+let result = 0;
+// let tempExpressionFiltered = [];
+// let tempExpression = [];
+let previousNum = [];
+let currentNum = [];
+let expression = [];
+
 decimal.addEventListener("click", decimalDisplay);
 button.forEach(button => button.addEventListener("click", buttonDisplay)); 
 button.forEach(numbersClicked=> numbersClicked.addEventListener("click", addToExpression));
@@ -13,10 +22,6 @@ userOperator.forEach(operatorClicked => operatorClicked.addEventListener("click"
 equals.addEventListener ("click", operate);
 clear.addEventListener("click", clearScreen);
 del.addEventListener("click", deleteNumber);
-
-let tempExpression = [];
-let firstNumber;
-let nextNumber;
 
 function clearScreen () {
     screen.innerText = "";
@@ -40,34 +45,64 @@ function chosenOperator () {
     }
 }
 
-let operand = [];
-let tempArray = [];
-let tempExpressionFiltered = [];
-function addToExpression () {
 
-    tempExpression.push(this.innerText);
+function addToExpression () { 
 
-    tempExpressionFiltered = tempExpression.filter(item => !item.includes ("+") && !item.includes ("-") && !item.includes ("*") && !item.includes ("/") && !item.includes ("=") && !item.includes ("clear") && !item.includes ("delete") && !item.includes ("."))
+// The temp array here is the screen. The expression is eventually what is being evaluated. Expression array contains floating point numbers and operators in a string.
 
-    if (tempExpressionFiltered.length >=1) {
-        tempArray = tempExpressionFiltered.join("")
+// parseFloat here might be redundant, consider removing later.
+
+// tempExpression() and tempExpression filtered was a redundancy removed as tempArray is sufficient with modifications added. I was looking to have tempExpression filter out for only numbers and act as an intermediary for tempArray. However using !isNaN filters out more effectively. I removed operand() as well since  the expression() name makes more sense defining it's purpose.
+
+//will need to fix when user presses multiple operators as it bugs the expression
+
+// fix operate section next. A change is that previously the operate contained the equals "onclick" but now the function is called in add to Expression
+
+    if (!isNaN(parseFloat(this.innerText)) || this.innerText === ".") {
+        tempArray += this.innerText;
+    } else if (this.innerText === "+" || this.innerText === "-" || this.innerText === "*" || this.innerText === "/") {
+        expression.push(parseFloat(tempArray), this.innerText);
+        tempArray = "";
+    } else if (this.innerText === "=") {
+        expression.push(parseFloat(tempArray));
+        operate();
+        expression = [];
+        tempArray= result;
+    }
+    screen.innerText = tempArray;
     }
     
-    tempArray = parseInt(tempArray);
+// function addToExpression () {
+
+//     tempExpression.push(this.innerText);
+
+//     tempExpressionFiltered = tempExpression.filter(item => !item.includes ("+") && !item.includes ("-") && !item.includes ("*") && !item.includes ("/") && !item.includes ("=") && !item.includes ("clear") && !item.includes ("delete") && !item.includes ("."))
+
+//     if (tempExpressionFiltered.length >=1) {
+//         tempArray = tempExpressionFiltered.join("")
+//     }
     
-    if (tempExpression.includes( "+") || tempExpression.includes ("-") || tempExpression.includes ("*") || tempExpression.includes ("/")|| tempExpression.includes ("=")) {
-// line below ensures that if user presses an operator twice that 0 isn't passed into operand
-        if (tempArray >=1) { 
-            operand.push(tempArray);
-            tempExpression.length = 0;
-            tempExpressionFiltered.length = 0;
-            tempArray = 0;
-           
-        }
-    }    
-    firstNumber = operand[0];
-    nextNumber = operand[1];
-}
+//     tempArray = parseFloat(tempArray);
+    
+//     if (tempExpression.includes( "+") || tempExpression.includes ("-") || tempExpression.includes ("*") || tempExpression.includes ("/")|| tempExpression.includes ("=")) {
+//         //if statement below ensures if user presses an operator twice that 0 isn't passed into operand
+//         if (tempArray >=1) { 
+//             operand.push(tempArray);
+//             tempExpression.length = 0;
+//             tempExpressionFiltered.length = 0;
+//             tempArray = 0;
+            
+//             if (operand.length <= 2) {
+//             previousNum = operand [0]
+//             currentNum = operand[1]
+
+//             } else {
+//             previousNum = operand[operand.length -1];
+//             currentNum = result
+//             }
+//         }
+//     }
+// }
 
 function decimalDisplay() {
      if (screen.innerHTML.includes('.')) {
@@ -79,33 +114,110 @@ function decimalDisplay() {
 
 function buttonDisplay() {
     if (this.innerText != "*" &&
-    this.innerText != "/" &&
-    this.innerText != "+" &&
-    this.innerText != "-" &&
-    this.innerText != "=" &&
-    this.innerText != "clear" &&
-    this.innerText != "delete" &&
-    this.innerText != ".") {
-        screen.innerText += this.innerText;
-        // stringArr = [...screen.innerText];
-        // screenArr = stringArr.map(Number);
-
-    }
+        this.innerText != "/" &&
+        this.innerText != "+" &&
+        this.innerText != "-" &&
+        this.innerText != "=" &&
+        this.innerText != "clear" &&
+        this.innerText != "delete" &&
+        this.innerText != ".") {
+            screen.innerText += this.innerText;
+            }
 }
 
 function add () {
-    return firstNumber + nextNumber;
+    result = previousNum + currentNum;
+    return previousNum + currentNum;
+   
 }
 function subtract () {
-    return firstNumber - nextNumber;
+    result = previousNum - currentNum;
+    return previousNum - currentNum;
 }
 function multiply () {
-    return firstNumber * nextNumber;
+    result = previousNum * currentNum;
+    return previousNum * currentNum;
 }
 function divide () {
-    return firstNumber / nextNumber; 
+    result = previousNum / currentNum;
+    return previousNum / currentNum; 
 }
 
 function operate () {
     screen.innerText = (operand.reduce(chosenOperator));
+    currentNum = result;
 }
+
+
+// let button = document.querySelectorAll("button");
+// let screen = document.querySelector(".screen");
+// let decimal = document.querySelector("[data-type='decimal']");
+// let equals = document.querySelector("[data-type='equals']");
+// let clear = document.querySelector("[data-type='clear']");
+// let del = document.querySelector("[data-type='delete']");
+
+// let expression = [];
+// let tempArray = "";
+// let result = 0;
+// let currentNum = 0;
+
+// decimal.addEventListener("click", decimalDisplay);
+// button.forEach(button => button.addEventListener("click", addToExpression));
+// equals.addEventListener("click", operate);
+// clear.addEventListener("click", clearScreen);
+// del.addEventListener("click", deleteNumber);
+
+// function clearScreen() {
+//     screen.innerText = "";
+//     expression = [];
+//     tempArray = "";
+// }
+
+// function deleteNumber() {
+//     if (tempArray.length > 0) {
+//         tempArray = tempArray.slice(0, -1);
+//         screen.innerText = tempArray;
+//     }
+// }
+
+// function addToExpression() {
+//     if (!isNaN(parseFloat(this.innerText)) || this.innerText === ".") {
+//         tempArray += this.innerText;
+//         screen.innerText = tempArray;
+//     } else if (this.getAttribute("data-type") === "operator") {
+//         expression.push(parseFloat(tempArray), this.innerText);
+//         tempArray = "";
+//     } else if (this.getAttribute("data-type") === "equals") {
+//         expression.push(parseFloat(tempArray));
+//         operate();
+//         expression = [];
+//         tempArray = result.toString();
+//         screen.innerText = tempArray;
+//     }
+// }
+
+// function decimalDisplay() {
+//     if (!tempArray.includes('.')) {
+//         tempArray += ".";
+//         screen.innerText = tempArray;
+//     }
+// }
+
+// function operate() {
+//     result = expression[0];
+//     for (let i = 1; i < expression.length; i += 2) {
+//         if (expression[i] === "+") {
+//             result += expression[i + 1];
+//         } else if (expression[i] === "-") {
+//             result -= expression[i + 1];
+//         } else if (expression[i] === "*") {
+//             result *= expression[i + 1];
+//         } else if (expression[i] === "/") {
+//             result /= expression[i + 1];
+//         }
+//     }
+//     currentNum = result;
+// }
+
+
+
