@@ -112,17 +112,18 @@ function addToExpression () {
 
 // change decimalDisplay code for better readability
     function decimalDisplay() {
-        if (!tempArray.includes('.')) {
-            tempArray += ".";
-            screen.innerText = tempArray;
-        }
+    //     if (!tempArray.includes('.')) {
+    //         tempArray += ".";
+    //         screen.innerText = tempArray;
+    //     }
+    // }
+     if (screen.innerHTML.includes('.')) {
+        decimal.disabled; 
+     } else {
+        screen.innerText += this.innerText;
+        
+     }
     }
-//      if (screen.innerHTML.includes('.')) {
-//         decimal.disabled; 
-//      } else {
-//         screen.innerText += this.innerText;
-//      }
-// }
 
 // made redundant as code is now pushed in addToExpression function
 // function buttonDisplay() {
