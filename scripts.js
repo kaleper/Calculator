@@ -66,17 +66,29 @@ function addToExpression () {
 
     if (!isNaN(parseFloat(this.innerText)) || this.innerText === ".") {
         tempArray += this.innerText;
-    } else if (this.innerText === "+" || this.innerText === "-" || this.innerText === "*" || this.innerText === "/") {
+    } 
+    
+    else if (this.innerText === "+" || this.innerText === "-" ||  this.innerText === "*" || this.innerText === "/") 
+        // why do i even need this line below?  if not empty, user has entered a number, means we need to push the number to the expression.
+        { if (tempArray !== "") {
         expression.push(parseFloat(tempArray), this.innerText);
         tempArray = "";
-    } else if (this.innerText === "=") {
+        }
+        // if last element is a number, can safely add operator to expression array (else statement). if not a number and we already have an operator, (if) replaces the operator with a new operator.
+        if (expression.length > 0 && isNaN(expression[expression.length - 1])) {
+            expression[expression.length - 1] = this.innerText;
+        } else {
+            expression.push(this.innerText);
+        }
+    }   
+    else if (this.innerText === "=") {
         expression.push(parseFloat(tempArray));
         operate();
         expression = [];
         tempArray= result;
     }
     screen.innerText = tempArray;
-    }
+}
     
 // function addToExpression () {
 
@@ -112,6 +124,7 @@ function addToExpression () {
 
 // change decimalDisplay code for better readability
     function decimalDisplay() {
+    // this glitches and puts two decimals
     //     if (!tempArray.includes('.')) {
     //         tempArray += ".";
     //         screen.innerText = tempArray;
