@@ -17,7 +17,7 @@ let currentNum = [];
 let expression = [];
 
 decimal.addEventListener("click", decimalDisplay);
-button.forEach(button => button.addEventListener("click", buttonDisplay)); 
+button.forEach(button => button.addEventListener("click", addToExpression)); 
 // button.forEach(numbersClicked=> numbersClicked.addEventListener("click", addToExpression));
 // userOperator.forEach(operatorClicked => operatorClicked.addEventListener("click", chosenOperator));
 // equals.addEventListener ("click", operate);
@@ -110,14 +110,19 @@ function addToExpression () {
 //     }
 // }
 
-function decimalDisplay() {
-    
-     if (screen.innerHTML.includes('.')) {
-        decimal.disabled; 
-     } else {
-        screen.innerText += this.innerText;
-     }
-}
+// change decimalDisplay code for better readability
+    function decimalDisplay() {
+        if (!tempArray.includes('.')) {
+            tempArray += ".";
+            screen.innerText = tempArray;
+        }
+    }
+//      if (screen.innerHTML.includes('.')) {
+//         decimal.disabled; 
+//      } else {
+//         screen.innerText += this.innerText;
+//      }
+// }
 
 // made redundant as code is now pushed in addToExpression function
 // function buttonDisplay() {
