@@ -1,47 +1,72 @@
+/* Apply box-sizing to all elements and set default font-family */
 * {
-    
     box-sizing:border-box;
+    font-family: 'Poppins', 'Helvetica', 'Arial', sans-serif;
+    background-color:#ecf4d6;
 }
 
-p {
+/* Calculator header */
+[data-type="header"]{
     text-align: center;
+    font-weight: bold; 
     font-size: 25px;
+    color: rgb(38, 80, 115);
 }
 
+/* Centers items in calculator */
 .calculator-container {
     display: flex;
     justify-content: center;
-    
+
 }
+
+/* Individual rows */
+.row {
+    background-color:rgb(154, 208, 194);
+    padding-top: 3px;
+}
+
+/* 'Delete' and 'Clear' buttons */
+.delete-clear-container {
+    background-color: rgb(154, 208, 194);
+}
+
+/* Entire calculator */
 .calculator {
-    border: solid 3px;
+    border: solid 5px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
 }
 
-.row {
-    padding-top: 3px;
-}
+/* Screen */
 .screen {
-    background-color:lightgray;
-    width: 212px;
+    background-color:rgb(154, 208, 194);
+    font-weight: 900;
+    color: rgb(38, 80, 115);
+    width: 214px;
     height:50px;
     font-size: 20px;
+    border-radius:3px;
 }
 
+/* Calculator buttons */
+button { 
+    color:rgb(255, 255, 255);
+    background-color: rgb(45, 149, 150);
+    border-radius: 5px;
+    border-color: rgb(38, 80, 115);
+    width: 50px;
+    height: 50px;
+}
+
+/* 'Delete' and 'Clear' row */
 .delete-clear-container {
     display: flex;
     gap: 4px;   
 }
 
-button[data-type="clear"] {
+/* Flex 'Delete' and 'Clear' buttons */
+button[data-type="clear"], button[data-type="delete"] {
     flex: 1;
-}
-
-button[data-type="delete"] {
-    flex: 1;
- }
-button {
-    width: 50px;
-    height: 50px;
 }
